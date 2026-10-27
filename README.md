@@ -8,13 +8,29 @@ Works for Laravel (best supported), Symfony and plain PHP projects. PHP 8.2+.
 
 ## Install
 
+The package is not on Packagist yet, so add its GitHub repository to your project's `composer.json` first:
+
 ```bash
-composer config allow-plugins.gglerum/dev-quality-tools true
-composer require --dev gglerum/dev-quality-tools
+composer config repositories.quality-tools vcs https://github.com/gglerum/dev-quality-tools
 ```
 
-Until the package is on Packagist, add the repository first:
-`composer config repositories.quality-tools vcs https://github.com/<you>/dev-quality-tools`.
+This adds the entry below (you can also paste it by hand):
+
+```json
+"repositories": [
+    { "type": "vcs", "url": "https://github.com/gglerum/dev-quality-tools" }
+]
+```
+
+Then allow the Composer plugin and require the package as a dev dependency:
+
+```bash
+composer config allow-plugins.gglerum/dev-quality-tools true
+composer require --dev gglerum/dev-quality-tools:dev-main
+```
+
+`dev-main` is needed until a version tag exists. The repository is public, so no credentials are required. If your
+Composer uses SSH for GitHub and you have no key set up, add `"preferred-install": "dist"` or use the HTTPS URL above.
 
 After `composer install` / `update` the plugin:
 
@@ -34,15 +50,30 @@ For Laravel, also `composer require --dev larastan/larastan psalm/plugin-laravel
 `vendor/bin/quality-tools init --force` to regenerate configs that use them (they are kept out of the package so
 non-Laravel projects do not pull in Laravel).
 
-## Running tools
+## Using it
+
+Everything goes through the `analyse` composer script that `init` adds. Composer passes the words after it on to the tool:
 
 ```bash
 composer analyse                   # everything
-composer analyse sast dast         # categories
+composer analyse sast dast         # one or more categories
 composer analyse phpstan gitleaks  # single tools
-composer analyse sast gitleaks     # mixed
-vendor/bin/quality-tools list-tools
+composer analyse sast gitleaks     # categories and tools mixed
+vendor/bin/quality-tools list-tools   # all categories and tools
 ```
+
+Other commands (run them with `vendor/bin/quality-tools`):
+
+| Command | What it does |
+|---|---|
+| `analyse [targets...]` | Run categories and/or tools (what `composer analyse` calls) |
+| `list-tools` | Show the categories and the tools in them |
+| `init [--force]` | Rescan the project and write the configs, composer script and hook; `--force` overwrites existing configs |
+| `install [--no-zap]` | Download Gitleaks, Trivy, Semgrep and ZAP into `vendor/bin-tools/` |
+| `hook` | What the pre-commit hook runs; you can run it by hand to try it |
+
+Typical first run in a project: `composer analyse sast secrets`, then look in `reports/`. Adjust the generated
+configs, or `.quality-tools.json`, until the output is useful, then run `composer analyse` in CI.
 
 Reports go to `reports/` in each tool's own format (SARIF, JSON, JUnit, ...). The exit code is non-zero when a tool
 finds something. A tool that cannot run (not installed, no config) is *skipped* when it came from a category, and
