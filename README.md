@@ -118,6 +118,8 @@ Written by `init` from the scan; edit it freely, it overrides the scan.
 
 ## Development
 
+See [docs/](docs/): `architecture.md` (how it fits together), `adding-a-tool.md`, `development.md` (testing, releasing) and `roadmap.md` (known gaps).
+
 ```bash
 composer install
 composer test
