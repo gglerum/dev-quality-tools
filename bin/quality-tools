@@ -1,0 +1,14 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+// Works both from the package itself and when installed as a dependency (vendor/gglerum/dev-quality-tools/bin).
+foreach ([__DIR__.'/../../../autoload.php', __DIR__.'/../vendor/autoload.php'] as $autoload) {
+    if (is_file($autoload)) {
+        require $autoload;
+        break;
+    }
+}
+
+exit((new Gglerum\QualityTools\Console\Application())->run());

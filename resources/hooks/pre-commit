@@ -1,0 +1,42 @@
+#!/bin/sh
+# Installed by gglerum/dev-quality-tools (vendor/bin/quality-tools init). Re-run init --force to update it.
+# Fixes staged files (Rector, Pint, ...), reports what it changed, then blocks the commit on analyser or test failures.
+# Which fixers and checks run is set under "hook" in .quality-tools.json.
+
+# Avoid "cannot set locale" warnings in editors that pass an invalid locale
+unset LANG LC_ALL LC_MESSAGES LC_COLLATE LC_CTYPE LC_MONETARY LC_NUMERIC LC_TIME
+export LANG=C.utf8 LC_ALL=C.utf8
+
+ROOT="$(git rev-parse --show-toplevel)" || exit 1
+cd "$ROOT" || exit 1
+
+BIN=""
+for CANDIDATE in vendor/bin/quality-tools "$(composer config vendor-dir 2>/dev/null)/bin/quality-tools"; do
+    if [ -f "$CANDIDATE" ]; then BIN="$CANDIDATE"; break; fi
+done
+if [ -z "$BIN" ]; then
+    echo "quality-tools is not installed (composer install); skipping the pre-commit checks."
+    exit 0
+fi
+
+LOG_FILE="$(git rev-parse --absolute-git-dir)/pre-commit.log"
+EXIT_FILE="$LOG_FILE.exit"
+rm -f "$EXIT_FILE"
+
+# A temp file carries the exit code because PIPESTATUS is bash-only
+(
+    php "$BIN" hook
+    echo $? > "$EXIT_FILE"
+) 2>&1 | tee "$LOG_FILE"
+
+# No exit file means the checks didn't finish; fail closed instead of letting the commit through.
+EXIT_CODE=$(cat "$EXIT_FILE" 2>/dev/null || echo 1)
+rm -f "$EXIT_FILE"
+case "$EXIT_CODE" in
+    ''|*[!0-9]*) EXIT_CODE=1 ;;
+esac
+
+if [ "$EXIT_CODE" -ne 0 ]; then
+    echo "Commit blocked. Full output: $LOG_FILE"
+fi
+exit "$EXIT_CODE"

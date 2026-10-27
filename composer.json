@@ -1,0 +1,55 @@
+{
+    "name": "gglerum/dev-quality-tools",
+    "description": "One dev dependency that bundles SAST, DAST, SCA, secret, style and test tooling for PHP projects, with project-aware configs and a pre-commit hook.",
+    "type": "composer-plugin",
+    "license": "MIT",
+    "keywords": ["static-analysis", "security", "pre-commit", "sast", "dast", "laravel"],
+    "require": {
+        "php": "^8.2",
+        "composer-plugin-api": "^2.1",
+        "symfony/console": "^6.4 || ^7.0",
+        "symfony/process": "^6.4 || ^7.0",
+        "deptrac/deptrac": "^4.0",
+        "infection/infection": "^0.32",
+        "laravel/pint": "^1.24",
+        "phpstan/phpstan": "^2.1",
+        "rector/rector": "^2.0",
+        "vimeo/psalm": "^6.0"
+    },
+    "require-dev": {
+        "composer/composer": "^2.7",
+        "phpunit/phpunit": "^11.5"
+    },
+    "suggest": {
+        "larastan/larastan": "PHPStan rules for Laravel (Laravel projects)",
+        "psalm/plugin-laravel": "Psalm and taint analysis for Laravel (Laravel projects)",
+        "driftingly/rector-laravel": "Rector rules for Laravel (Laravel projects)"
+    },
+    "autoload": {
+        "psr-4": {
+            "Gglerum\\QualityTools\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Gglerum\\QualityTools\\Tests\\": "tests/"
+        }
+    },
+    "bin": ["bin/quality-tools"],
+    "extra": {
+        "class": "Gglerum\\QualityTools\\Plugin"
+    },
+    "config": {
+        "platform": {
+            "php": "8.2.27"
+        },
+        "sort-packages": true,
+        "allow-plugins": {
+            "infection/extension-installer": true
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "minimum-stability": "stable"
+}
