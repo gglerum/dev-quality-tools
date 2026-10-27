@@ -17,9 +17,9 @@ final class Runner
     ) {}
 
     /**
-     * @param list<string> $command
-     * @param array<string, string> $env
-     * @param string|null $stdoutTo report file (relative to the project) that receives stdout instead of the terminal
+     * @param  list<string>  $command
+     * @param  array<string, string>  $env
+     * @param  string|null  $stdoutTo  report file (relative to the project) that receives stdout instead of the terminal
      */
     public function run(array $command, array $env = [], ?string $stdoutTo = null): int
     {
@@ -49,8 +49,8 @@ final class Runner
     }
 
     /**
-     * @param list<string> $command
-     * @param array<string, string> $env
+     * @param  list<string>  $command
+     * @param  array<string, string>  $env
      */
     public function start(array $command, array $env = []): Process
     {

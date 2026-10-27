@@ -61,9 +61,9 @@ final class PreCommit
     }
 
     /**
-     * @param list<string> $php
-     * @param list<string> $js
-     * @param list<string> $appPhp
+     * @param  list<string>  $php
+     * @param  list<string>  $js
+     * @param  list<string>  $appPhp
      */
     private function fix(array $php, array $js, array $appPhp): void
     {
@@ -89,8 +89,8 @@ final class PreCommit
     }
 
     /**
-     * @param list<string> $files
-     * @param list<string> $command
+     * @param  list<string>  $files
+     * @param  list<string>  $command
      */
     private function fixWith(string $name, array $files, array $command, bool $mustSucceed = true): void
     {
@@ -127,9 +127,9 @@ final class PreCommit
     }
 
     /**
-     * @param list<string> $staged
-     * @param list<string> $php
-     * @param list<string> $appPhp
+     * @param  list<string>  $staged
+     * @param  list<string>  $php
+     * @param  list<string>  $appPhp
      */
     private function check(array $staged, array $php, array $appPhp): bool
     {
@@ -170,9 +170,9 @@ final class PreCommit
      * class by name. Anything that can change what tests do beyond that (migrations, config, lock files, ...), no
      * related tests found, or FULL_TESTS=1 runs the full suite.
      *
-     * @param list<string> $staged
-     * @param list<string> $php
-     * @param list<string> $js
+     * @param  list<string>  $staged
+     * @param  list<string>  $php
+     * @param  list<string>  $js
      */
     private function test(array $staged, array $php, array $js): bool
     {
@@ -305,7 +305,7 @@ final class PreCommit
     }
 
     /**
-     * @param list<string> $files
+     * @param  list<string>  $files
      * @return array<string, string>
      */
     private function hashes(array $files): array

@@ -45,7 +45,7 @@ final class ConfigGenerator
         return $tests === null ? $this->sourceDirs() : [...$this->sourceDirs(), $tests];
     }
 
-    /** The directories that hold the application classes (not config, routes, ...). */
+    /** @return list<string> the directories that hold the application classes (not config, routes, ...) */
     private function codeDirs(): array
     {
         $code = array_values(array_intersect($this->sourceDirs(), ['app', 'src', 'lib']));

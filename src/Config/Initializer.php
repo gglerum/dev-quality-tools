@@ -16,7 +16,7 @@ final class Initializer
     public function __construct(private readonly Project $project) {}
 
     /**
-     * @param callable(string): void $log
+     * @param  callable(string): void  $log
      */
     public function run(bool $force, callable $log): void
     {

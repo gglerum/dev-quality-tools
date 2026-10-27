@@ -20,7 +20,7 @@ final class ListCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $registry = new ToolRegistry();
+        $registry = new ToolRegistry;
         foreach (Category::cases() as $category) {
             $output->writeln(sprintf('<info>%s</info>  %s', $category->value, $category->title()));
             foreach ($registry->inCategory($category) as $tool) {

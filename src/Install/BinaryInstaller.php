@@ -6,6 +6,7 @@ namespace Gglerum\QualityTools\Install;
 
 use Gglerum\QualityTools\Project;
 use Gglerum\QualityTools\Tools\BinaryLocator;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
 /**
@@ -28,7 +29,7 @@ final class BinaryInstaller
     }
 
     /**
-     * @param callable(string): void $log
+     * @param  callable(string): void  $log
      * @return bool true when everything that could be installed was installed
      */
     public function installAll(callable $log, bool $withZap = true): bool
@@ -54,7 +55,8 @@ final class BinaryInstaller
             try {
                 $ok = $install() && $ok;
             } catch (\Throwable $e) {
-                $log("FAILED   {$name}: ".$e->getMessage());
+                $detail = $e instanceof ProcessFailedException ? trim($e->getProcess()->getOutput().$e->getProcess()->getErrorOutput()) : $e->getMessage();
+                $log("FAILED   {$name}: ".strtok($detail, "\n"));
                 $ok = false;
             }
         }
@@ -101,7 +103,13 @@ final class BinaryInstaller
         $venv = $this->project->toolsDir().'/venv';
         $this->ensureDir($this->project->toolsDir());
         $log('install  semgrep (python venv in '.$venv.')');
-        (new Process([$python, '-m', 'venv', $venv]))->mustRun();
+        try {
+            (new Process([$python, '-m', 'venv', $venv]))->mustRun();
+        } catch (ProcessFailedException $e) {
+            (new Process(['rm', '-rf', $venv]))->run();
+
+            throw $e;
+        }
         (new Process([$venv.'/bin/pip', 'install', '--quiet', 'semgrep'], null, null, null, 600))->mustRun();
         $log('installed semgrep');
 
@@ -151,8 +159,8 @@ final class BinaryInstaller
     }
 
     /**
-     * @param array<string, string> $os
-     * @param array<string, string> $arch
+     * @param  array<string, string>  $os
+     * @param  array<string, string>  $arch
      * @return array{string, string}|null
      */
     private function platform(array $os, array $arch): ?array

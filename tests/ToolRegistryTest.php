@@ -11,7 +11,7 @@ final class ToolRegistryTest extends TestCase
 {
     public function test_every_category_has_tools_and_every_tool_can_be_run(): void
     {
-        $registry = new ToolRegistry();
+        $registry = new ToolRegistry;
 
         foreach (Category::cases() as $category) {
             $this->assertNotEmpty($registry->inCategory($category), $category->value.' has no tools');
@@ -26,6 +26,6 @@ final class ToolRegistryTest extends TestCase
     {
         $categories = array_map(fn (Category $c): string => $c->value, Category::cases());
 
-        $this->assertSame([], array_intersect($categories, array_keys((new ToolRegistry())->all())));
+        $this->assertSame([], array_intersect($categories, array_keys((new ToolRegistry)->all())));
     }
 }

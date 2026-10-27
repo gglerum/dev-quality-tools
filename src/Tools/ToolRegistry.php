@@ -79,7 +79,7 @@ final class ToolRegistry
 
             // DAST
             new Tool('zap', Category::Dast, 'OWASP ZAP scan of the running app (HTML, SARIF)',
-                custom: fn (ToolContext $c): int => (new ZapRunner())->run($c),
+                custom: fn (ToolContext $c): int => (new ZapRunner)->run($c),
                 unavailable: static function (ToolContext $c): ?string {
                     if ($c->binaries->find('zap.sh') === null) {
                         return 'ZAP is not installed (run: vendor/bin/quality-tools install)';

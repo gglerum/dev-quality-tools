@@ -10,7 +10,7 @@ final class ScratchDatabase
     public function __construct(private readonly ToolContext $context) {}
 
     /**
-     * @param callable(array<string, string>): int $callback gets the environment that points the app at the scratch database
+     * @param  callable(array<string, string>): int  $callback  gets the environment that points the app at the scratch database
      */
     public function with(callable $callback): int
     {

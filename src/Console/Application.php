@@ -12,11 +12,11 @@ final class Application extends BaseApplication
     {
         parent::__construct('quality-tools', '1.0.0');
         $this->addCommands([
-            new AnalyseCommand(),
-            new ListCommand(),
-            new InitCommand(),
-            new InstallCommand(),
-            new HookCommand(),
+            new AnalyseCommand,
+            new ListCommand,
+            new InitCommand,
+            new InstallCommand,
+            new HookCommand,
         ]);
     }
 }

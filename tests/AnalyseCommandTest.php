@@ -25,7 +25,7 @@ final class AnalyseCommandTest extends TestCase
     public function test_unknown_targets_are_rejected(): void
     {
         chdir($this->project(['composer.json' => '{}']));
-        $tester = new CommandTester(new AnalyseCommand());
+        $tester = new CommandTester(new AnalyseCommand);
 
         $this->assertSame(2, $tester->execute(['targets' => ['sast', 'nonsense']]));
         $this->assertStringContainsString('Unknown: nonsense', $tester->getDisplay());
@@ -35,12 +35,12 @@ final class AnalyseCommandTest extends TestCase
     {
         chdir($this->project(['composer.json' => '{}']));
 
-        $category = new CommandTester(new AnalyseCommand());
+        $category = new CommandTester(new AnalyseCommand);
         $this->assertSame(0, $category->execute(['targets' => ['dast']]));
         $this->assertStringContainsString('zap', $category->getDisplay());
         $this->assertStringContainsString('skipped', $category->getDisplay());
 
-        $named = new CommandTester(new AnalyseCommand());
+        $named = new CommandTester(new AnalyseCommand);
         $this->assertSame(1, $named->execute(['targets' => ['gitleaks']]));
     }
 
@@ -52,7 +52,7 @@ final class AnalyseCommandTest extends TestCase
         chmod($root.'/vendor/bin/pint', 0755);
         chdir($root);
 
-        $tester = new CommandTester(new AnalyseCommand());
+        $tester = new CommandTester(new AnalyseCommand);
 
         $this->assertSame(1, $tester->execute(['targets' => ['pint']]));
         $this->assertSame("<checkstyle/>\n", file_get_contents($root.'/reports/pint.xml'));

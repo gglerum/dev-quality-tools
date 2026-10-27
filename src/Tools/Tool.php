@@ -13,10 +13,10 @@ use Closure;
 final class Tool
 {
     /**
-     * @param Closure(ToolContext): list<string>|null $command argv of the process; null when `custom` is used
-     * @param Closure(ToolContext): int|null $custom runs the tool itself and returns the exit code
-     * @param Closure(ToolContext): (string|null)|null $unavailable reason the tool cannot run here, or null when it can
-     * @param string|null $stdoutTo file in the reports dir that receives stdout (for tools without an output flag)
+     * @param  Closure(ToolContext): list<string>|null  $command  argv of the process; null when `custom` is used
+     * @param  Closure(ToolContext): int|null  $custom  runs the tool itself and returns the exit code
+     * @param  Closure(ToolContext): (string|null)|null  $unavailable  reason the tool cannot run here, or null when it can
+     * @param  string|null  $stdoutTo  file in the reports dir that receives stdout (for tools without an output flag)
      */
     public function __construct(
         public readonly string $name,

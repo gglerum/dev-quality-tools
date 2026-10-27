@@ -28,7 +28,7 @@ final class AnalyseCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $project = Project::load((string) getcwd());
-        $registry = new ToolRegistry();
+        $registry = new ToolRegistry;
 
         /** @var list<string> $targets */
         $targets = $input->getArgument('targets');
@@ -67,7 +67,7 @@ final class AnalyseCommand extends Command
     }
 
     /**
-     * @param list<string> $targets
+     * @param  list<string>  $targets
      * @return array{list<Tool>, list<string>}
      */
     private function resolve(ToolRegistry $registry, array $targets, Project $project): array

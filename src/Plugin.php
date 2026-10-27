@@ -18,7 +18,7 @@ use Gglerum\QualityTools\Install\BinaryInstaller;
  * the first time, scan the project and write the configs and hook. Failures only warn; they never break Composer.
  * Set QUALITY_TOOLS_SKIP=1 (for example in CI or Docker builds) to skip all of it.
  */
-final class Plugin implements PluginInterface, EventSubscriberInterface
+final class Plugin implements EventSubscriberInterface, PluginInterface
 {
     public function activate(Composer $composer, IOInterface $io): void {}
 
