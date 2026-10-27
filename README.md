@@ -29,8 +29,7 @@ composer config allow-plugins.gglerum/dev-quality-tools true
 composer require --dev gglerum/dev-quality-tools:dev-main
 ```
 
-`dev-main` is needed until a version tag exists. The repository is public, so no credentials are required. If your
-Composer uses SSH for GitHub and you have no key set up, add `"preferred-install": "dist"` or use the HTTPS URL above.
+`dev-main` is needed until a version tag exists. The repository is public and the HTTPS URL needs no credentials.
 
 After `composer install` / `update` the plugin:
 
